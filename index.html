@@ -1,4 +1,4 @@
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -68,14 +68,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);overflow:hid
 .capa-sub{font-size:15px;font-weight:300;color:var(--muted);letter-spacing:.02em}
 
 /* ── SLIDE 2 — CUSTO DA INÉRCIA (equação) ── */
-.inercia-eq-wrap{display:flex;flex-direction:column;align-items:center;gap:28px;margin-top:8px}
-.inercia-input-row{display:flex;align-items:center;gap:12px}
+.inercia-eq-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:28px;margin-top:8px}
+.inercia-input-row{display:flex;align-items:center;gap:12px;width:100%}
 .inercia-input-label{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
 .inercia-input{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--text);width:180px;outline:none;transition:border-color .2s}
 .inercia-input:focus{border-color:var(--orange)}
 
 /* equação visual */
-.eq-main{display:flex;align-items:stretch;gap:0;border-radius:14px;overflow:hidden;border:1px solid var(--border2);width:100%;max-width:860px}
+.eq-main{display:flex;align-items:stretch;gap:0;border-radius:14px;overflow:hidden;border:1px solid var(--border2);width:100%}
 .eq-block-new{flex:1;background:var(--surface);padding:20px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;border-right:1px solid var(--border)}
 .eq-block-new:last-child{border-right:none}
 .eq-block-new.highlight-o{background:rgba(245,104,10,.06);border-bottom:2px solid var(--orange)}
@@ -86,7 +86,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);overflow:hid
 .eq-op-box{display:flex;align-items:center;justify-content:center;background:var(--bg);padding:0 10px;font-family:var(--mono);font-size:20px;color:var(--muted);min-width:36px;border-right:1px solid var(--border)}
 
 /* resultado rows */
-.inercia-results{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:860px}
+.inercia-results{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
 .ir-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:center;position:relative;overflow:hidden}
 .ir-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .ir-card.bad::before{background:var(--red)}
@@ -283,7 +283,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);overflow:hid
         <div class="eq-op-box">=</div>
         <div class="eq-block-new highlight-g">
           <div class="eq-block-label">Faturamento Conquistado</div>
-          <div class="eq-block-val" id="eq-fat-novo" style="color:var(--green)">R$ 198.225</div>
+          <div class="eq-block-val" id="eq-fat-novo" style="color:var(--green)">R$ 195.000</div>
           <div class="eq-block-sub">por mês</div>
         </div>
       </div>
@@ -292,17 +292,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);overflow:hid
       <div class="inercia-results">
         <div class="ir-card bad">
           <div class="ir-card-label">Sem estrutura comercial</div>
-          <div class="ir-card-val" id="ir-custo-mensal">− R$ 48.225</div>
+          <div class="ir-card-val" id="ir-custo-mensal">− R$ 45.000</div>
           <div class="ir-card-desc">perdido por mês sem agir</div>
         </div>
         <div class="ir-card good">
           <div class="ir-card-label">Ganho mensal com estrutura</div>
-          <div class="ir-card-val" id="ir-ganho-mensal">+ R$ 48.225</div>
+          <div class="ir-card-val" id="ir-ganho-mensal">+ R$ 45.000</div>
           <div class="ir-card-desc">adicionados ao faturamento</div>
         </div>
         <div class="ir-card total">
           <div class="ir-card-label">Custo de inércia anual</div>
-          <div class="ir-card-val" id="ir-custo-anual">R$ 578.700</div>
+          <div class="ir-card-val" id="ir-custo-anual">R$ 540.000</div>
           <div class="ir-card-desc">em 12 meses sem agir</div>
         </div>
       </div>
@@ -479,17 +479,17 @@ document.addEventListener('keydown', e => {
 // ── Slide 2: Custo da Inércia ──
 function fmt(v) { return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
 
-function calcInercia(raw) {
-  const base = parseFloat(String(raw).replace(/\D/g, '')) || 150000;
-  const novo = base * 1.15 * 1.15;
-  const ganho = novo - base;
-  document.getElementById('eq-fat-base').textContent = fmt(base);
+function calcInercia() {
+  const base  = 150000;
+  const ganho = base * 0.30;        // 30% = 45.000
+  const novo  = base + ganho;       // 195.000
+  document.getElementById('eq-fat-base').textContent  = fmt(base);
   document.getElementById('eq-fat-novo').textContent  = fmt(novo);
   document.getElementById('ir-custo-mensal').textContent = '− ' + fmt(ganho);
   document.getElementById('ir-ganho-mensal').textContent = '+ ' + fmt(ganho);
   document.getElementById('ir-custo-anual').textContent  = fmt(ganho * 12);
 }
-calcInercia(150000);
+calcInercia();
 
 // ── Slide 5: Equação Interativa ──
 function calcEquacao() {
